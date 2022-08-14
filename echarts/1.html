@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #app{
+          width: 900px;
+          height: 294px;
+          background: rgba(13,48,93,0.8000);
+        }
+    </style>
+    <script src="./echarts.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script>
+      let myEcharts = echarts.init(document.getElementById('app'))
+      let option = {
+        title:{
+          text: '确权面积',
+          top: 12,
+          left: 20,
+          textStyle:{
+            color: '#fff',
+            fontWeight: '400',
+            fontSize:16,
+            lineHeight:22,
+          }
+        },
+        // 横向柱状图,也就是交换x、y轴
+        xAxis: [{
+          axisLine:{
+            show:true,
+            symbol:['none', 'triangle'],
+            symbolSize:[7, 9],
+            symbolOffset:[4, 4],
+            lineStyle:{
+              color:'#636F91'
+            }
+          },
+          axisTick:{
+            show:false
+          },
+          axisLabel:{
+            color:'#fff',
+            lineHeight:16,
+            fontSize:14,
+            fontFamily:'DINAlternate-Bold, DINAlternate'
+          },
+          type: 'category',
+          data: ['南湖区', '秀洲区', '嘉善县', '海盐县', '海宁市','平湖市','桐乡市']
+        }],
+        yAxis: {
+          type: 'value',
+          // boundaryGap: ['20%', '0.4'],
+          max:'100',
+          min:'0',
+          axisLine:{
+            show:true,
+            symbol:['none', 'triangle'],
+            symbolSize:[7, 9],
+            symbolOffset:[0, 4],
+            lineStyle:{
+              color:'#636F91'
+            }
+          },
+          axisLabel:{
+            formatter: function(value){
+              if(value == 0){
+                return value 
+              }else{
+                return value + ' %'
+              }
+            },
+            // showMaxLabel:false,
+            color:'#fff',
+            lineHeight:16,
+            fontSize:14,
+            fontFamily:'DINAlternate-Bold, DINAlternate'
+          },
+          splitLine:{
+            lineStyle:{
+              type:'dashed',
+              opacity:0.2,
+            }
+          },
+          axisTick:{
+            show:false
+          },
+          nameTextStyle:{
+            // fontSize:14,
+            // color:'#FFFFFF',
+            // lineHeight:16,
+          }
+        },
+        series: {
+          name: '流转率',
+          type: 'bar',
+          itemStyle:{
+            normal: {
+              barBorderRadius: 0,
+              color: new echarts.graphic.LinearGradient(
+                0, 0, 0, 1,
+                [
+                  {offset: 0, color: 'rgba(41, 224, 192, 0.9)'},
+                  {offset: 1, color: 'rgba(41, 224, 192, 0)'}
+                ]
+                )
+              }
+            },
+            // 数值显示
+            label: {
+              show: true,
+              position: 'top',
+              fontSize: 14,
+              lineHeight: 16,
+              color: '#fff'
+            },
+            // 柱宽度
+            barWidth: '30%',
+            data: [51.41,79.65,87.19,78.12,62.48,85.37,60.18]
+          }
+        }
+        myEcharts.setOption(option)
+    </script>
+</body>
+</html>
