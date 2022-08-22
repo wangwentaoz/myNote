@@ -11,4 +11,20 @@
       4. 不过页面渲染始终是在微任务执行之后才进行的，所以$nextTick回调执行时页面还没有进行渲染，在页面上看不到更新后的结果
    3. 注：浏览器如果不兼容则有几种备选方案，其中setTimeout是最后的一种备选方案，它会将回调函数加入任务队列task中，等待执行。
    4. https://zhuanlan.zhihu.com/p/364479245
-2. 
+2. this.$refs
+   1. 关于 ref 注册时间的重要说明：因为 ref 本身是作为渲染结果被创建的，在初始渲染的时候你不能访问它们 - 它们还不存在
+      1. $refs 也不是响应式的，因此你不应该试图用它在模板中做数据绑定
+   2. 所以如果是v-if的组件search-part
+      1. 开始refs对象里面没有v-if为false的组件，所以后面虽然有search-part组件实例DOM但是通过refs也取不到
+      ```
+      <search-part v-if="searchPartFlag" ref="searchPart"></search-part>
+      jumpSearchDetailPage(){
+        this.searchPartFlag = true
+        this.$nextTick(() =>{
+          // 这时是有渲染search-part组件的
+          console.log(Object.keys(this.$refs),'Object.keys(this.$refs)')  // undefined
+          console.log(this.$refs.searchPart,'this.$refs.searchPart')  // undefined
+        })
+      },
+      ```
+3. 
