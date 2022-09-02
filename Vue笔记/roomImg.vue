@@ -1,49 +1,22 @@
 <template>
-  <div class="roomImg" v-loading="loading">
-    <div class="text">
-      图片要求：建议上传10张以上，且尺寸大于1200*900，大小限制1M以内。<br />
-      请保证上传图片清晰无水印；
-    </div>
-    <div class="nav">
-      <div class="header">
-        <span class="number">{{ dataList.length }}/30</span
-        ><span>拖拽可调整顺序</span>
-      </div>
-      <div class="drag">
-        <transition-group class="transition-wrapper" name="sort">
-          <div
-            class="box sort-item"
-            v-for="item in dataList"
-            :key="item.id"
-            :draggable="true"
-            @dragstart="dragstart(item)"
-            @dragenter="dragenter(item, $event)"
-            @dragend="dragend(item, $event)"
-            @dragover="dragover($event)"
-          >
-            <!-- :key="item.roomTypeNoId" -->
-            <!-- <img :src="require(item.roomPicPth)" alt="" /> -->
-            {{ item.label }}
-          </div>
-          <div class="box sort-item" key="roomImg999">
-            <el-upload
-              class="upload-demo"
-              drag
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :before-upload="beforeupload"
-              multiple
-            >
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">
-                <em>点击上传</em>
-              </div>
-              <!-- <div class="el-upload__tip" slot="tip">
-                只能上传jpg/png文件，且不超过500kb
-              </div> -->
-            </el-upload>
-          </div>
-        </transition-group>
-      </div>
+  <div class="roomImg">
+    <div class="drag">
+      <transition-group class="transition-wrapper" name="sort">
+        <div
+          class="box sort-item"
+          v-for="item in dataList"
+          :key="item.id"
+          :draggable="true"
+          @dragstart="dragstart(item)"
+          @dragenter="dragenter(item, $event)"
+          @dragend="dragend(item, $event)"
+          @dragover="dragover($event)"
+        >
+          <!-- :key="item.roomTypeNoId" -->
+          <!-- <img :src="require(item.roomPicPth)" alt="" /> -->
+          {{ item.label }}
+        </div>
+      </transition-group>
     </div>
     <!-- <div>oldData:{{ oldData }}</div>
     <div>newData:{{ newData }}</div>
@@ -51,7 +24,6 @@
   </div>
 </template>
 <script>
-import { findHotelRoomTypeMediaList } from "@/api/integratedManagePlatform/hotelSetting/roomImg.js";
 export default {
   props: {
     roomTypeId: {
@@ -73,32 +45,10 @@ export default {
         { id: 5, label: "测试五号" },
         { id: 6, label: "测试六号" },
         { id: 7, label: "测试七号" },
-        // { id:4,label:'测试四号' },
       ],
-      loading:false,
     };
   },
-  watch: {
-    dataList(arr) {
-      if (arr.length > 30) {
-        this.dataList.slice(0, 30);
-      }
-    },
-  },
-  mounted() {
-    this.findRoomSupporting();
-  },
   methods: {
-    findRoomSupporting() {
-      this.loading = true
-      findHotelRoomTypeMediaList({
-        roomTypeId: "10000000000002",
-      }).then((res) => {
-        // this.dataList = res.data;
-      }).finally(()=>{
-         this.loading = false
-      });
-    },
     dragstart(value) {
       this.oldData = value;
     },
@@ -126,19 +76,6 @@ export default {
     // 拖动事件（主要是为了拖动时鼠标光标不变为禁止）
     dragover(e) {
       e.preventDefault();
-    },
-    //阻止upload的自己上传，进行再操作
-    beforeupload(file) {
-      console.log(file);
-
-      // this.src = windowURL.createObjectURL(file);
-      // //重新写一个表单上传的方法
-      // this.param = new FormData();
-      // this.param.append("file", file, file.name);
-      // return false;
-    },
-    qk() {
-      //  this.$router.go(0)
     },
   },
 };
@@ -173,34 +110,6 @@ export default {
         height: 100%;
       }
     }
-  }
-  .text {
-    width: 95%;
-    padding: 18px 18px;
-    margin: 10px auto;
-    line-height: 26px;
-    background-color: rgb(229, 236, 244);
-    border-radius: 10px;
-  }
-  .header {
-    margin: 20px 0 15px;
-    display: flex;
-    align-items: center;
-    // color: rgb(197, 197, 197);
-    .number {
-      font-size: 22px;
-      margin-right: 10px;
-      color: rgb(77, 136, 240);
-    }
-  }
-  /deep/.el-upload-dragger {
-    width: 166px;
-    height: 199px;
-    border-radius: 15px;
-  }
-  /deep/ .el-upload,
-  .el-icon-upload {
-    width: 100%;
   }
 }
 //
