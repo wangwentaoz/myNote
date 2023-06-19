@@ -33,6 +33,15 @@ set https_proxy=
       3. 发起pull request
       4. 等待作者审核合并
 
+```
+解决办法：打开http://ping.chinaz.com/https://github.com 网址，在里面搜索github.com进行ping检测，找一个外国的响应时间最短的ip，这次选择的是一个韩国KT的ip，15.164.81.167
+打开目录为C:\Windows\System32\drivers\etc\hosts 这个文件，在最后添加一行代码，15.164.81.167 github.com 。之后再进行ping github.com就可以接受到数据包了
+
+如何改变hosts文件
+首先右键属性，下面有个只读，关闭只读
+其次右键属性，点击安全，点击高级，点击添加，点击选择主体，点击高级，点击立即查找，在下面选中我们的账户metaphor，点击确定，在界面中选择完全控制，后面一直确定就行了
+```
+
 ## Git
 1. 目的：通过git管理github托管项目代码
    1. git官网下载 https://www.git-scm.com/download/win
